@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel | Candlestick Platform</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #0a0e17;
+      --bg-card: #12182a;
+      --accent: #00d4aa;
+      --accent-dim: rgba(0, 212, 170, 0.15);
+      --accent-bright: #00ffcc;
+      --text: #e8ecf4;
+      --text-muted: #8b95a8;
+      --border: rgba(255, 255, 255, 0.08);
+      --danger: #ff5252;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 24px;
+      background-image:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 212, 170, 0.12), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 100%, rgba(255, 193, 7, 0.08), transparent);
+    }
+
+    .container { max-width: 1000px; margin: 0 auto; }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, var(--accent), var(--accent-bright));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    h2 { font-size: 1.4rem; margin-bottom: 16px; }
+    h3 { font-size: 1.1rem; }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(0, 0, 0, 0.3);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+    }
+
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 24px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg-dark);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-bright);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0, 212, 170, 0.4);
+    }
+
+    .btn-danger {
+      background: rgba(255, 82, 82, 0.15);
+      color: var(--danger);
+      border: 1px solid rgba(255, 82, 82, 0.6);
+    }
+
+    .btn-danger:hover {
+      background: rgba(255, 82, 82, 0.3);
+    }
+
+    /* ✅ ADDED */
+    .btn-outline {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+    }
+
+    .btn-outline:hover {
+      background: var(--accent-dim);
+    }
+
+    /* ✅ ADDED */
+    .btn-sm {
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      border-radius: 6px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .hidden { display: none !important; }
+
+    .error {
+      color: var(--danger);
+      font-size: 0.9rem;
+      margin-top: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      padding: 8px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+
+    th { color: var(--text-muted); font-weight: 500; }
+
+    td input {
+      margin-bottom: 0;
+      padding: 6px 8px;
+      font-size: 0.85rem;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--accent-dim);
+      color: var(--accent);
+      font-size: 0.8rem;
+    }
+
+    .notice {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    .save-status {
+      font-size: 0.9rem;
+      margin-top: 10px;
+      color: var(--accent);
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+
+  <div class="card" id="loginCard">
+    <div class="top-bar">
+      <h1>Admin Panel</h1>
+      <span class="tag">Protected</span>
+    </div>
+
+    <div>
+      <label>Username</label>
+      <input id="adminUser" type="text" placeholder="Username">
+    </div>
+
+    <div>
+      <label>Password</label>
+      <input id="adminPass" type="password" placeholder="Password">
+    </div>
+
+    <button id="loginBtn" class="btn btn-primary" style="width:100%;">Login</button>
+    <div id="loginError" class="error hidden">Invalid username or password.</div>
+  </div>
+
+  <div class="card hidden" id="adminCard">
+    <h2>Dashboard Stats</h2>
+
+    <div class="row">
+      <div>
+        <label>Total Earnings (USDT)</label>
+        <input id="totalEarningsInput" type="number" step="0.01">
+      </div>
+      <div>
+        <label>Total Sales</label>
+        <input id="totalSalesInput" type="number">
+      </div>
+    </div>
+
+    <h3 style="margin-top:20px;">Earnings by Date</h3>
+    <table>
+      <thead>
+      <tr>
+        <th>Date</th>
+        <th>Label</th>
+        <th>Value</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody id="earningsTableBody"></tbody>
+    </table>
+
+    <button id="addRowBtn" class="btn btn-outline" style="margin-top:12px;">+ Add Row</button>
+
+    <div style="margin-top:20px;">
+      <button id="saveBtn" class="btn btn-primary">Save Changes</button>
+      <button id="resetBtn" class="btn btn-danger">Reset</button>
+    </div>
+
+    <div id="saveStatus" class="save-status"></div>
+  </div>
+
+</div>
+
+<script>
+const ADMIN_USER = "subham";
+const ADMIN_PASS = "subham";
+const STORAGE_KEY = "dreamStats";
+
+const loginBtn = document.getElementById("loginBtn");
+const loginCard = document.getElementById("loginCard");
+const adminCard = document.getElementById("adminCard");
+const loginError = document.getElementById("loginError");
+
+loginBtn.onclick = function () {
+  const u = document.getElementById("adminUser").value.trim();
+  const p = document.getElementById("adminPass").value.trim();
+  if (u === ADMIN_USER && p === ADMIN_PASS) {
+    loginCard.classList.add("hidden");
+    adminCard.classList.remove("hidden");
+    loginError.classList.add("hidden");
+  } else {
+    loginError.classList.remove("hidden");
+  }
+};
+</script>
+
+</body>
+</html>
